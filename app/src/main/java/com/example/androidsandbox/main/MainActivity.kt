@@ -26,8 +26,6 @@ class MainActivity : ComponentActivity() {
                             "15:32"
                         )
                     )
-
-                    
                     MessageCard(
                         msg = Message(
                             "German",
