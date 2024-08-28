@@ -14,32 +14,31 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val messages = listOf(
+            Message(
+                "Arthur",
+                "What's up dude? Should we go for a walk tonight?",
+                "15:32"
+            ),
+            Message(
+                "German",
+                "Hey! Let's go to the beach",
+                "15:34"
+            ),
+            Message(
+                "Arthur",
+                "For sure! Meet you there",
+                "16:02"
+            )
+        )
+
         setContent {
             AndroidSandboxTheme {
                 Surface(modifier = Modifier
                     .fillMaxSize()
                     .systemBarsPadding()) {
-                    MessageCard(
-                        msg = Message(
-                            "Arthur",
-                            "What's up dude? Should we go for a walk tonight?",
-                            "15:32"
-                        )
-                    )
-                    MessageCard(
-                        msg = Message(
-                            "German",
-                            "Hey! Let's go to the beach",
-                            "15:34"
-                        )
-                    )
-                    MessageCard(
-                        msg = Message(
-                            "Arthur",
-                            "For sure! Meet you there",
-                            "16:02"
-                        )
-                    )
+                    MessagesScreen("Arthur", messages)
                 }
             }
         }
