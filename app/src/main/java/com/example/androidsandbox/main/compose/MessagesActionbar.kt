@@ -1,4 +1,4 @@
-package com.example.androidsandbox.main
+package com.example.androidsandbox.main.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row

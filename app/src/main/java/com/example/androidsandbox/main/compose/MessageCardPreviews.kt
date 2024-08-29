@@ -1,9 +1,10 @@
-package com.example.androidsandbox.main
+package com.example.androidsandbox.main.compose
 
 import android.content.res.Configuration
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.androidsandbox.main.model.MockData
 import com.example.androidsandbox.ui.theme.AndroidSandboxTheme
 
 @Preview(showBackground = true)
@@ -25,7 +26,7 @@ fun MessageCardPreview() {
 fun MessageListPreview() {
     AndroidSandboxTheme {
         Surface {
-            MessageList(MockData.messages)
+            MessageList(MockData.messages, false) {}
         }
     }
 }

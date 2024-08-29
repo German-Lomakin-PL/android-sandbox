@@ -1,5 +1,6 @@
-package com.example.androidsandbox.main
+package com.example.androidsandbox.main.compose
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.androidsandbox.R
+import com.example.androidsandbox.main.model.Message
 
 @Composable
 fun MessageCard(msg: Message) {
@@ -42,13 +44,18 @@ fun MessageCard(msg: Message) {
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
-            .clickable{ isPressed = !isPressed }
+            .animateContentSize()
+            .clickable { isPressed = !isPressed }
     ) {
         Box(
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape)
-                .border(if (isPressed) 5.dp else 1.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                .border(
+                    if (isPressed) 5.dp else 1.dp,
+                    MaterialTheme.colorScheme.primary,
+                    CircleShape
+                )
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_background),
@@ -68,7 +75,8 @@ fun MessageCard(msg: Message) {
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
-                    )
+                    ),
+                    maxLines = 1
                 )
                 Text(
                     text = "'s message:",
@@ -76,10 +84,14 @@ fun MessageCard(msg: Message) {
                         fontSize = 14.sp,
                         fontStyle = FontStyle.Italic,
                         color = MaterialTheme.colorScheme.primary
-                    )
+                    ),
+                    maxLines = if (isPressed) 1 else 1
                 )
             }
-            Text(text = msg.body, style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.secondary))
+            Text(
+                text = msg.body,
+                style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.secondary),
+                maxLines = if (isPressed) Int.MAX_VALUE else 1)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = msg.time,
