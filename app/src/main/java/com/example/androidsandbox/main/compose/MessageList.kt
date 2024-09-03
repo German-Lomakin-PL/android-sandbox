@@ -9,8 +9,8 @@ import com.example.androidsandbox.main.model.Message
 import com.example.androidsandbox.widgets.PullToRefreshLazyColumn
 
 @Composable
-fun MessageList(messages: List<Message>, isRefreshing: Boolean, onRefresh: () -> Unit) {
-        Box(Modifier.background(MaterialTheme.colorScheme.background)) {
+fun MessageList(messages: List<Message>, isRefreshing: Boolean, modifier: Modifier = Modifier, onRefresh: () -> Unit) {
+        Box(modifier.background(MaterialTheme.colorScheme.background)) {
             PullToRefreshLazyColumn(
                 listItems = messages,
                 isRefreshing = isRefreshing,

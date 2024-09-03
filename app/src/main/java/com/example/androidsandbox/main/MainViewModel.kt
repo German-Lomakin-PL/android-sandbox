@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidsandbox.main.model.MainUIState
 import com.example.androidsandbox.main.model.Message
-import com.example.androidsandbox.main.model.MockData
+import com.example.androidsandbox.mocks.MockData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,11 +37,11 @@ class MainViewModel: ViewModel() {
                 _messages.add(MockData.messages[Random.nextInt(0, MockData.messages.size)])
             }
             _isRefreshing = false
-            updateState(_messages)
+            updateState()
         }
     }
 
-    private suspend fun updateState(messages: List<Message>) {
-        _uiState.emit(MainUIState(_username, messages, _isRefreshing))
+    private suspend fun updateState() {
+        _uiState.emit(MainUIState(_username, _messages, _isRefreshing))
     }
 }
