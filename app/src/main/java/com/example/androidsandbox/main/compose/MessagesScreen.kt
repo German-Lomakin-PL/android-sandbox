@@ -10,12 +10,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androidsandbox.main.MainViewModel
 import com.example.androidsandbox.ui.theme.AndroidSandboxTheme
 
 @Composable
-fun MessagesScreen(mainViewModel: MainViewModel = viewModel()) {
+fun MessagesScreen(mainViewModel: MainViewModel = hiltViewModel()) {
     val mainUIState = mainViewModel.uiState.collectAsState().value
 
     AndroidSandboxTheme {
@@ -23,7 +24,8 @@ fun MessagesScreen(mainViewModel: MainViewModel = viewModel()) {
             Scaffold(
                 contentColor = MaterialTheme.colorScheme.background,
                 modifier = Modifier
-                    .fillMaxSize().systemBarsPadding(),
+                    .fillMaxSize()
+                    .systemBarsPadding(),
                 topBar = { MessagesActionbar(username = mainUIState.username) }) { contentPadding ->
 
                 Column(Modifier.padding(contentPadding)) {

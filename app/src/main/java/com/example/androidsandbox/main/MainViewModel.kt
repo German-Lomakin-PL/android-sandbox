@@ -2,17 +2,25 @@ package com.example.androidsandbox.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.androidsandbox.R
 import com.example.androidsandbox.main.model.MainUIState
 import com.example.androidsandbox.main.model.Message
 import com.example.androidsandbox.mocks.MockData
+import com.example.androidsandbox.modules.ResourceProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.random.Random
 
-class MainViewModel: ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val resourceProvider: ResourceProvider
+) : ViewModel() {
+
     private val _uiState = MutableStateFlow(MainUIState("", emptyList(), false))
     val uiState: StateFlow<MainUIState> = _uiState.asStateFlow()
 
@@ -32,9 +40,21 @@ class MainViewModel: ViewModel() {
         viewModelScope.launch {
             delay(2000)
             if (_messages.isEmpty()) {
-                _messages.addAll(MockData.messages)
+                _messages.addAll(MockData.messages.map {
+                    it.copy(
+                        messageLabel = resourceProvider.getString(
+                            R.string.chat_card_messages
+                        )
+                    )
+                })
             } else {
-                _messages.add(MockData.messages[Random.nextInt(0, MockData.messages.size)])
+                _messages.add(
+                    MockData.messages[Random.nextInt(0, MockData.messages.size)].copy(
+                        messageLabel = resourceProvider.getString(
+                            R.string.chat_card_messages
+                        )
+                    )
+                )
             }
             _isRefreshing = false
             updateState()

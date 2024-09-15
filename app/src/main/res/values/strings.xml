@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Android Sandbox</string>
+    <string name="chat_card_messages">\'s message:</string>
 </resources>

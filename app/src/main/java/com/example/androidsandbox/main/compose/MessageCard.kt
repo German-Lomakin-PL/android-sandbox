@@ -77,7 +77,7 @@ fun MessageCard(msg: Message) {
                     maxLines = 1
                 )
                 Text(
-                    text = "'s message:",
+                    text = msg.messageLabel,
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontStyle = FontStyle.Italic,

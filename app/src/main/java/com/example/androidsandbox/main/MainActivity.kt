@@ -27,7 +27,9 @@ import com.example.androidsandbox.main.compose.MessagesScreen
 import com.example.androidsandbox.navigation.Routes
 import com.example.androidsandbox.screens.chats.compose.ChatsScreen
 import com.example.androidsandbox.ui.theme.AndroidSandboxTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
