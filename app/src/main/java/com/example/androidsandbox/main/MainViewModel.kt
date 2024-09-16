@@ -1,5 +1,6 @@
 package com.example.androidsandbox.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidsandbox.R
@@ -7,18 +8,21 @@ import com.example.androidsandbox.main.model.MainUIState
 import com.example.androidsandbox.main.model.Message
 import com.example.androidsandbox.mocks.MockData
 import com.example.androidsandbox.modules.ResourceProvider
+import com.sandbox.data.SandboxRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    private val repository: SandboxRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUIState("", emptyList(), false))
@@ -38,24 +42,24 @@ class MainViewModel @Inject constructor(
         _isRefreshing = true
         _uiState.value = MainUIState(_username, _messages, _isRefreshing)
         viewModelScope.launch {
-            delay(2000)
-            if (_messages.isEmpty()) {
-                _messages.addAll(MockData.messages.map {
-                    it.copy(
-                        messageLabel = resourceProvider.getString(
-                            R.string.chat_card_messages
+
+            _messages.clear()
+            repository.getChats()
+                .flowOn(Dispatchers.IO)
+                .catch { Log.i("FPS", "Error: $it") }
+                .collect {
+                    it.forEach { chat ->
+                        _messages.add(
+                            Message(
+                                chat.name,
+                                chat.avatar,
+                                resourceProvider.getString(R.string.chat_card_messages),
+                                chat.createdAt
+                            )
                         )
-                    )
-                })
-            } else {
-                _messages.add(
-                    MockData.messages[Random.nextInt(0, MockData.messages.size)].copy(
-                        messageLabel = resourceProvider.getString(
-                            R.string.chat_card_messages
-                        )
-                    )
-                )
-            }
+                    }
+                }
+
             _isRefreshing = false
             updateState()
         }

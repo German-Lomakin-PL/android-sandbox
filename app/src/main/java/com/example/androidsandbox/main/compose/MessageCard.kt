@@ -24,12 +24,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.androidsandbox.R
 import com.example.androidsandbox.main.model.Message
 
@@ -57,11 +59,16 @@ fun MessageCard(msg: Message) {
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_background),
-                contentDescription = "Haha",
+                contentDescription = null,
             )
             Image(
                 painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "Haha",
+                contentDescription = null,
+            )
+            AsyncImage(
+                contentScale = ContentScale.Crop,
+                model = msg.body,
+                contentDescription = null
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
@@ -89,7 +96,8 @@ fun MessageCard(msg: Message) {
             Text(
                 text = msg.body,
                 style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.secondary),
-                maxLines = if (isPressed) Int.MAX_VALUE else 1)
+                maxLines = if (isPressed) Int.MAX_VALUE else 1
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = msg.time,

@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -66,11 +67,14 @@ dependencies {
     annotationProcessor(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.kotlinx.coroutines.test)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 

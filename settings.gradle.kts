@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android Sandbox"
 include(":app")
- 
+include(":data")
